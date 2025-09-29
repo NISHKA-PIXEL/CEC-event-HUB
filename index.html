@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGC Event Hub - College Event Management Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <h1>CGC Event Hub</h1>
+            </div>
+            <nav class="navbar-nav">
+                <a href="#" class="nav-link active" data-page="home">Home</a>
+                <a href="#" class="nav-link" data-page="events">Events</a>
+                <a href="#" class="nav-link" data-page="calendar">Calendar</a>
+                <a href="#" class="nav-link" data-page="dashboard">Dashboard</a>
+                <a href="#" class="nav-link" data-page="analytics">Analytics</a>
+                <a href="#" class="nav-link" data-page="profile">Profile</a>
+            </nav>
+            <div class="navbar-actions">
+                <div class="search-container">
+                    <input type="text" id="globalSearch" placeholder="Search events..." class="search-input">
+                </div>
+                <select id="roleSelector" class="role-selector">
+                    <option value="student">Student</option>
+                    <option value="organizer">Organizer</option>
+                    <option value="admin">Admin</option>
+                </select>
+                <div class="user-profile">
+                    <div class="user-avatar" id="currentUserAvatar"></div>
+                    <span id="currentUserName">Rahul Sharma</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Page -->
+        <section id="homePage" class="page active">
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h1 class="hero-title">Discover Amazing College Events</h1>
+                    <p class="hero-description">Join workshops, competitions, cultural fests, and more. Your next adventure awaits!</p>
+                    <div class="hero-actions">
+                        <button class="btn btn--primary btn--lg" data-page="events">Explore Events</button>
+                        <button class="btn btn--outline btn--lg" data-page="dashboard">My Dashboard</button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://user-gen-media-assets.s3.amazonaws.com/seedream_images/116cd808-e283-4ab8-8d10-7cc93f0b8702.png" alt="Event Management Dashboard" class="hero-img">
+                </div>
+            </div>
+            
+            <div class="featured-events">
+                <div class="container">
+                    <h2 class="section-title">Featured Events</h2>
+                    <div class="events-grid" id="featuredEventsGrid">
+                        <!-- Featured events will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <div class="container">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalEventsCount">25</div>
+                            <div class="stat-label">Total Events</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalRegistrationsCount">1,247</div>
+                            <div class="stat-label">Registrations</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="averageAttendanceRate">85%</div>
+                            <div class="stat-label">Attendance Rate</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">4</div>
+                            <div class="stat-label">Event Categories</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Page -->
+        <section id="eventsPage" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>All Events</h1>
+                    <button class="btn btn--primary" id="createEventBtn" style="display: none;">Create Event</button>
+                </div>
+                
+                <div class="filters-section">
+                    <div class="filters-grid">
+                        <select id="categoryFilter" class="form-control">
+                            <option value="">All Categories</option>
+                            <option value="AI & Machine Learning">AI & Machine Learning</option>
+                            <option value="Robotics">Robotics</option>
+                            <option value="Cultural">Cultural</option>
+                            <option value="Business">Business</option>
+                            <option value="Technology">Technology</option>
+                        </select>
+                        <select id="statusFilter" class="form-control">
+                            <option value="">All Status</option>
+                            <option value="open">Open</option>
+                            <option value="full">Full</option>
+                            <option value="closed">Closed</option>
+                        </select>
+                        <input type="date" id="dateFilter" class="form-control">
+                        <button class="btn btn--outline" id="clearFilters">Clear Filters</button>
+                    </div>
+                </div>
+
+                <div class="events-list" id="allEventsList">
+                    <!-- Events will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Calendar Page -->
+        <section id="calendarPage" class="page">
+            <div class="container">
+                <h1>Event Calendar</h1>
+                <div class="calendar-container" id="eventCalendar">
+                    <!-- Calendar will be generated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Page -->
+        <section id="dashboardPage" class="page">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1 id="dashboardTitle">Student Dashboard</h1>
+                    <div class="dashboard-actions" id="dashboardActions">
+                        <!-- Dynamic actions based on role -->
+                    </div>
+                </div>
+                <div class="dashboard-content" id="dashboardContent">
+                    <!-- Dashboard content will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Analytics Page -->
+        <section id="analyticsPage" class="page">
+            <div class="container">
+                <h1>Event Analytics</h1>
+                <div class="analytics-grid">
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Registration Trends</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="registrationChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Popular Categories</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="categoryChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Event Status Distribution</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="statusChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Key Metrics</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="metrics-grid">
+                                <div class="metric">
+                                    <div class="metric-value">15</div>
+                                    <div class="metric-label">Active Events</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-value">892</div>
+                                    <div class="metric-label">Total Participants</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-value">₹45,600</div>
+                                    <div class="metric-label">Revenue</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-value">4.8</div>
+                                    <div class="metric-label">Avg Rating</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Page -->
+        <section id="profilePage" class="page">
+            <div class="container">
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <div class="profile-avatar-large" id="profileAvatar"></div>
+                        <div class="profile-info">
+                            <h1 id="profileName">Rahul Sharma</h1>
+                            <p id="profileEmail">rahul@cgc.edu.in</p>
+                            <div class="profile-badge" id="profileRole">Student</div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-content">
+                        <div class="profile-section">
+                            <h3>My Registered Events</h3>
+                            <div class="registered-events" id="registeredEventsList">
+                                <!-- Registered events will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="profile-section">
+                            <h3>Account Settings</h3>
+                            <form class="profile-form">
+                                <div class="form-group">
+                                    <label class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="profileNameInput" value="Rahul Sharma">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="profileEmailInput" value="rahul@cgc.edu.in">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Department</label>
+                                    <input type="text" class="form-control" id="profileDepartmentInput" value="Computer Science">
+                                </div>
+                                <button type="submit" class="btn btn--primary">Update Profile</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Event Detail Modal -->
+        <div id="eventModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalEventTitle">Event Title</h2>
+                    <button class="modal-close" id="closeModal">&times;</button>
+                </div>
+                <div class="modal-body" id="modalEventContent">
+                    <!-- Event details will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Event Modal -->
+        <div id="createEventModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Create New Event</h2>
+                    <button class="modal-close" id="closeCreateModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="createEventForm" class="event-form">
+                        <div class="form-group">
+                            <label class="form-label">Event Title</label>
+                            <input type="text" class="form-control" id="eventTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="eventDescription" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select class="form-control" id="eventCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="AI & Machine Learning">AI & Machine Learning</option>
+                                <option value="Robotics">Robotics</option>
+                                <option value="Cultural">Cultural</option>
+                                <option value="Business">Business</option>
+                                <option value="Technology">Technology</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Date</label>
+                            <input type="date" class="form-control" id="eventDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Time</label>
+                            <input type="time" class="form-control" id="eventTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Location</label>
+                            <input type="text" class="form-control" id="eventLocation" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Max Capacity</label>
+                            <input type="number" class="form-control" id="eventCapacity" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Price (₹)</label>
+                            <input type="number" class="form-control" id="eventPrice" min="0" value="0">
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn--outline" id="cancelCreateEvent">Cancel</button>
+                            <button type="submit" class="btn btn--primary">Create Event</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CGC Event Hub</h3>
+                    <p>Your gateway to amazing college events and experiences.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#" data-page="events">Events</a></li>
+                        <li><a href="#" data-page="calendar">Calendar</a></li>
+                        <li><a href="#" data-page="dashboard">Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: events@cgc.edu.in</p>
+                    <p>Phone: +91 98765 43210</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CGC Event Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
