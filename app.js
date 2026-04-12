@@ -1,4 +1,4 @@
-// CGC Event Hub - Event Management Platform
+
 class EventHub {
     constructor() {
         this.currentPage = 'home';
