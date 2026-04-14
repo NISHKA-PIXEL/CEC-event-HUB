@@ -1,4 +1,3 @@
-
 class EventHub {
     constructor() {
         this.currentPage = 'home';
